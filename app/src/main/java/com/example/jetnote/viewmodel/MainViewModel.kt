@@ -1,9 +1,11 @@
 package com.example.jetnote.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jetnote.data.repository.Repository
+import com.example.jetnote.domain.model.ColorModel
 import com.example.jetnote.domain.model.NoteModel
 import com.example.jetnote.routing.JetNotesRouter
 import com.example.jetnote.routing.Screen
@@ -22,7 +24,11 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     val notesNotInTrash : LiveData<List<NoteModel>> by lazy {
         repository.getAllNotesNotInTrash()
     }
-
+private var _noteEntry = MutableLiveData(NoteModel())
+    val noteEntry: LiveData<NoteModel> = _noteEntry
+    val colors: LiveData<List<ColorModel>> by lazy {
+        repository.getAllColors()
+    }
     fun onCreateNewNoteClick(){
         JetNotesRouter.navigateTo(Screen.SaveNote)
     }
